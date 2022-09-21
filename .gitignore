@@ -4,3 +4,6 @@
 /htmlcov
 /build
 /dist
+.idea
+Parsley.egg-info
+Pipfile

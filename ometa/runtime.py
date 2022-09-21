@@ -19,6 +19,7 @@ class ParseError(Exception):
     """
     ?Redo from start
     """
+    __slots__ = 'position', 'error', 'input', 'trail'
 
     def __init__(self, input, position, message, trail=None):
         Exception.__init__(self, position, message)
@@ -278,7 +279,8 @@ class InputStream(object):
         return rec
 
     def __cmp__(self, other):
-        return cmp((self.data, self.position), (other.data, other.position))
+        a, b = (self.data, self.position), (other.data, other.position)
+        return (a > b) - (a < b)
 
 
 class WrappedValueInputStream(InputStream):
@@ -368,6 +370,9 @@ class OMetaBase(object):
     Base class providing implementations of the fundamental OMeta
     operations. Built-in rules are defined here.
     """
+
+    __slots__ = "input", "locals", "currentError"
+
     globals = None
     tree = False
     def __init__(self, input, globals=None, name='<string>', tree=False,

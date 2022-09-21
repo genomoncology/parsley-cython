@@ -1,10 +1,20 @@
 #!/usr/bin/env python
 
+from setuptools import setup, Extension
+from Cython.Build import cythonize
+
 """
 Setup script for the Parsley distribution.
 """
 
-from distutils.core import setup
+extensions = [
+    Extension("ometa.runtime", ["ometa/runtime.py"])
+]
+
+extension_options = {
+    "compiler_directives": {"profile": True}, "annotate": True
+}
+
 setup(
     name="Parsley",
     version="1.3",
@@ -16,5 +26,6 @@ setup(
     long_description=open("README").read(),
     packages=["ometa", "terml", "ometa._generated", "terml._generated",
               "ometa.test", "terml.test"],
-    py_modules=["parsley"]
+    py_modules=["parsley"],
+    ext_modules=cythonize(extensions, **extension_options),
 )
